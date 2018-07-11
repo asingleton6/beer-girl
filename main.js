@@ -42,8 +42,11 @@ function initMap() {
       lat: 33.751650,
       lng: -84.399328
     },
-    zoom: 11
+    zoom: 9
   });
+  geocoder = new google.maps.Geocoder();
+
+  geocodeAddress(geocoder, map);
 
   // var marker = new google.maps.Marker({
   //   position: {
@@ -58,25 +61,15 @@ function initMap() {
   // });
 }
 
-function initialize() {
-  geocoder = new google.maps.Geocoder();
-  var latlng = new google.maps.LatLng(-34.397, 150.644);
-  var mapOptions = {
-    zoom: 8,
-    center: latlng
-  }
-  map = new google.maps.Map(document.getElementById('map'), mapOptions);
-}
-
-function codeAddress() {
+function geocodeAddress(geocoder, resultsMap) {
   var address = "5600 Roswell Road";
   geocoder.geocode({
     'address': address
   }, function(results, status) {
-    if (status == 'OK') {
-      map.setCenter(results[0].geometry.location);
+    if (status === 'OK') {
+      resultsMap.setCenter(results[0].geometry.location);
       var marker = new google.maps.Marker({
-        map: map,
+        map: resultsMap,
         position: results[0].geometry.location
       });
     } else {
